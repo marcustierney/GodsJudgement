@@ -5,6 +5,7 @@ public class EnemyBrain : MonoBehaviour
     UnitMovement movement;
     UnitCombat combat;
     GameObject townHall;
+    private bool isCollidingWithTownHall = false;
 
     void Start()
     {
@@ -15,10 +16,27 @@ public class EnemyBrain : MonoBehaviour
 
     void Update()
     {
-        bool inRange = combat.TryAttack(townHall);
-        if (!inRange)
+        if (!isCollidingWithTownHall)
         {
             movement.MoveTo(townHall.transform.position);
+        }
+        else
+        {
+            combat.TryAttack(townHall);
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject == townHall)
+        {
+            isCollidingWithTownHall = true;
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject == townHall)
+        {
+            isCollidingWithTownHall = false;
         }
     }
 }

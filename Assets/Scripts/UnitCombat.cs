@@ -14,7 +14,18 @@ public class UnitCombat : MonoBehaviour
             return false;
         }
         cooldownTimer -= Time.deltaTime;
-        float dist = Vector3.Distance(transform.position, target.transform.position);
+        Collider targetCollider = target.GetComponent<Collider>();
+        Vector3 closestPoint;
+
+        if (targetCollider != null)
+        {
+            closestPoint = targetCollider.ClosestPoint(transform.position);
+        }
+        else
+        {
+            closestPoint = target.transform.position;
+        }
+        float dist = Vector3.Distance(transform.position, closestPoint);
         if (dist > attackRange)
         {
             return false;
