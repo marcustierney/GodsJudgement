@@ -4,7 +4,7 @@ public class Turret : MonoBehaviour
 {
     public float range = 10f;
     public float damage = 20f;
-    public float fireRate = 1f; // shots per second
+    public float fireRate = 1f; 
 
     private float fireCooldown = 0f;
 
@@ -50,13 +50,11 @@ public class Turret : MonoBehaviour
             Debug.DrawLine(transform.position + Vector3.up * 1.5f, enemy.transform.position + Vector3.up * 1f, Color.red, 0.1f, false);
             print("enemy hit");
         }
-
-        // Optional: add firing animation, particle, or sound
     }
 
     void OnDrawGizmosSelected()
     {
-        // visualize turret range
+        //visualize turret range
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, range);
     }

@@ -1,10 +1,11 @@
 using UnityEngine;
-
 [RequireComponent(typeof(Rigidbody))]
 public class UnitMovement : MonoBehaviour
 {
     public float speed = 3f;
+    public float stoppingDistance = 0.2f;
     private Rigidbody rb;
+    private Vector3? currentTarget = null;
 
     void Awake()
     {
@@ -13,17 +14,52 @@ public class UnitMovement : MonoBehaviour
         rb.useGravity = false;
     }
 
-
-    public void MoveTo(Vector3 target)
+    void FixedUpdate()
     {
-        Vector3 dir = target - transform.position;
-        dir.y = 0;
-        if (dir.sqrMagnitude < 0.001f)
+        if (currentTarget == null)
         {
             return;
         }
+
+        Vector3 dir = currentTarget.Value - rb.position;
+        dir.y = 0;
+
+        if (dir.sqrMagnitude <= stoppingDistance * stoppingDistance)
+        {
+            StopMoving();
+            return;
+        }
+
         dir.Normalize();
         Vector3 newPos = rb.position + dir * speed * Time.fixedDeltaTime;
         rb.MovePosition(newPos);
+    }
+
+    public void MoveTo(Vector3 target)
+    {
+        currentTarget = new Vector3(target.x, rb.position.y, target.z);
+    }
+
+    public void StopMoving()
+    {
+        currentTarget = null;
+        rb.linearVelocity = Vector3.zero;
+    }
+
+    public bool HasReachedTarget()
+    {
+        if (currentTarget == null)
+        {
+            return true;
+        }
+        Vector3 dir = currentTarget.Value - rb.position;
+        dir.y = 0;
+        float squaredDistance = dir.sqrMagnitude;
+        float squaredStoppingDistance = stoppingDistance * stoppingDistance;
+        if (squaredDistance <= squaredStoppingDistance)
+        {
+            return true;
+        }
+        return false;
     }
 }

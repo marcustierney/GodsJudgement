@@ -7,11 +7,12 @@ TagManager:
   - Friendly
   - Enemy
   - TownHall
+  - Building
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 

@@ -23,6 +23,11 @@ public class ResourceManager : MonoBehaviour
         return true;
     }
 
+    public bool HasWood(float amount)
+    {
+        return wood >= amount;
+    }
+
     public bool SpendWood(float amount)
     {
         if (wood < amount)

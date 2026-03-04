@@ -35,7 +35,7 @@ public class UnitCombat : MonoBehaviour
             return true;
         }
         Health health = target.GetComponent<Health>();
-        if (health != null)
+        if (health != null && !health.isDead)
         {
             health.TakeDamage(damage);
         }

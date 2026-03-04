@@ -1,7 +1,8 @@
 using UnityEngine;
 public class DefendTownHallAction : UtilityAction
 {
-    public float defendRadius = 8f; 
+    public float defendRadius = 8f;
+    public float stopDistance = 2f; 
 
     public override float CalculateUtility(AIContext context)
     {
@@ -9,7 +10,7 @@ public class DefendTownHallAction : UtilityAction
         {
             return 0;
         }
-        if (context.distanceToTownHall < defendRadius)
+        if (context.distanceToTownHall < defendRadius) //Only pull troops back if drifted too far from townhall
         {
             return 0;
         }
@@ -17,32 +18,40 @@ public class DefendTownHallAction : UtilityAction
         {
             return 0;
         }
-        float urgency = context.nearestEnemyDistance / 15f; //score drops as troop gets closer to townhall so it naturally hands off to attack
+        float urgency = context.nearestEnemyDistance / 15f;
         return 2f + urgency;
     }
 
     public override void Execute(AIContext context)
     {
         UnitMovement movement = context.self.GetComponent<UnitMovement>();
-
         Vector3 townHallPos = context.townHall.transform.position;
         Vector3 selfPos = context.self.transform.position;
-        //stop moving if already within 10 units on X and Z
-        float dx = Mathf.Abs(selfPos.x - townHallPos.x);
-        float dz = Mathf.Abs(selfPos.z - townHallPos.z);
-        if (dx < 10f && dz < 10f)
-        {
-            return;
-        }
-        Vector3 dirAway = (selfPos - townHallPos); //move to edge of townhall rather than its center
+        Vector3 dirAway = selfPos - townHallPos;
         dirAway.y = 0;
         if (dirAway.sqrMagnitude < 0.001f)
         {
             dirAway = Vector3.forward;
         }
         dirAway.Normalize();
-        float stopDistance = 4f;
-        Vector3 targetPosition = townHallPos + dirAway * stopDistance;
-        movement.MoveTo(targetPosition);
+        float townHallRadius = 0f;
+        Collider townHallCollider = context.townHall.GetComponent<Collider>();
+        if (townHallCollider != null)
+        {
+            Vector3 closestPoint = townHallCollider.ClosestPoint(selfPos);
+            townHallRadius = Vector3.Distance(townHallPos, closestPoint);
+        }
+        else
+        {
+            townHallRadius = Mathf.Max(context.townHall.transform.localScale.x, context.townHall.transform.localScale.z) / 2f;
+        }
+        Vector3 targetPos = townHallPos + dirAway * (townHallRadius + stopDistance);
+        float distToTarget = Vector3.Distance(new Vector3(selfPos.x, 0, selfPos.z), new Vector3(targetPos.x, 0, targetPos.z));
+        if (distToTarget < 0.5f)
+        {
+            movement.StopMoving();
+            return;
+        }
+        movement.MoveTo(targetPos);
     }
 }

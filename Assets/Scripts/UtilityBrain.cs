@@ -60,6 +60,15 @@ public class UtilityBrain : MonoBehaviour
     {
         context.health = health.currentHealth;
         context.maxHealth = health.maxHealth;
+        //context.nearestEnemy = FindNearestEnemy();
+        if (context.nearestEnemy != null)
+        {
+            Health enemyHealth = context.nearestEnemy.GetComponent<Health>();
+            if (enemyHealth != null && enemyHealth.isDead)
+            {
+                context.nearestEnemy = null;
+            }
+        }
         context.nearestEnemy = FindNearestEnemy();
         if (context.nearestEnemy != null)
         {
@@ -79,6 +88,11 @@ public class UtilityBrain : MonoBehaviour
         float closest = Mathf.Infinity;
         foreach (var enemy in enemies)
         {
+            Health h = enemy.GetComponent<Health>();
+            if (h != null && h.isDead)
+            {
+                continue;
+            }
             float dist = Vector3.Distance(transform.position, enemy.transform.position);
             if (dist < closest)
             {

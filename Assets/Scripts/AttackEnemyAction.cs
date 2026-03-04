@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class AttackEnemyAction : UtilityAction
 {
     public override float CalculateUtility(AIContext context)
@@ -15,12 +14,21 @@ public class AttackEnemyAction : UtilityAction
 
     public override void Execute(AIContext context)
     {
+        if (context.nearestEnemy == null)
+        {
+            return;
+        }
         UnitMovement movement = context.self.GetComponent<UnitMovement>();
         UnitCombat combat = context.self.GetComponent<UnitCombat>();
+
         bool inRange = combat.TryAttack(context.nearestEnemy);
         if (!inRange)
         {
             movement.MoveTo(context.nearestEnemy.transform.position);
+        }
+        else
+        {
+            movement.StopMoving();
         }
     }
 }
