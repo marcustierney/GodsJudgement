@@ -119,9 +119,13 @@ public class BuildingPlacer : MonoBehaviour
         {
             halfExtents = new Vector3(2f, 0.5f, 2f);
         }
+        else if (buildingType == "lumbermill")
+        {
+            halfExtents = new Vector3(1.5f, 0.5f, 1f);
+        }
         else
         {
-            halfExtents = new Vector3(1f, 0.5f, 1f);
+            halfExtents = new Vector3(0.5f, 1f, 0.5f);
         }
         Collider[] hits = Physics.OverlapBox(pos, halfExtents, Quaternion.identity);
         foreach (var hit in hits)

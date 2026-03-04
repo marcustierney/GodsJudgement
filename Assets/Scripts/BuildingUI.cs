@@ -6,10 +6,13 @@ public class BuildingUI : MonoBehaviour
 {
     public GameObject farmPrefab;
     public GameObject turretPrefab;
+    public GameObject lumermillPrefab;
+    public float lumbermillWoodCost = 30f;
     public float farmWoodCost = 50f;
     public float turretWoodCost = 80f;
     public Button farmButton;
     public Button turretButton;
+    public Button lumbermillButton;
     public TextMeshProUGUI woodText;
     public TextMeshProUGUI foodText;
 
@@ -20,9 +23,21 @@ public class BuildingUI : MonoBehaviour
             woodText.text = $"Wood: {ResourceManager.Instance.wood:F0}";
             foodText.text = $"Food: {ResourceManager.Instance.food:F0}";
         }
-        //Grey out buttons if player cant afford 
-        farmButton.interactable = ResourceManager.Instance != null && ResourceManager.Instance.HasWood(farmWoodCost);
-        turretButton.interactable = ResourceManager.Instance != null && ResourceManager.Instance.HasWood(turretWoodCost);
+        bool hasWoodForFarm;
+        bool hasWoodForTurret;
+        bool hasWoodForLumbermill;
+        if (ResourceManager.Instance != null)
+        {
+            hasWoodForFarm = ResourceManager.Instance.HasWood(farmWoodCost);
+            hasWoodForTurret = ResourceManager.Instance.HasWood(turretWoodCost);
+            hasWoodForLumbermill = ResourceManager.Instance.HasWood(lumbermillWoodCost);
+        }
+        else
+        {
+            hasWoodForFarm = false;
+            hasWoodForTurret = false;
+            hasWoodForLumbermill = false;
+        }
     }
 
     public void OnClickBuildFarm()
@@ -33,5 +48,10 @@ public class BuildingUI : MonoBehaviour
     public void OnClickBuildTurret()
     {
         BuildingPlacer.Instance.StartPlacing(turretPrefab, turretWoodCost, "turret");
+    }
+
+    public void OnClickBuildLumbermill()
+    {
+        BuildingPlacer.Instance.StartPlacing(lumermillPrefab, lumbermillWoodCost, "lumbermill");
     }
 }
