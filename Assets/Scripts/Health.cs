@@ -25,11 +25,25 @@ public class Health : MonoBehaviour
         {
             return;
         }
+        TroopStats stats = GetComponent<TroopStats>();
+        if (stats != null)
+        {
+            amount = stats.ModifyIncomingDamage(amount);
+        }
         currentHealth -= amount;
         if (currentHealth <= 0)
         {
             Die();
         }
+    }
+
+    public void Heal(float amount)
+    {
+        if (isDead)
+        {
+            return;
+        }
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
     }
 
     void Die()

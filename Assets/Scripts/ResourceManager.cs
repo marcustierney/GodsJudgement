@@ -8,10 +8,23 @@ public class ResourceManager : MonoBehaviour
     public float wood = 100;
     public int troops = 0;
     public int maxTroops = 50;
+    public float resourceInterval = 2f;
+    private float resourceTimer = 0f;
 
     void Awake()
     {
         Instance = this;
+    }
+
+    private void Update()
+    {
+        resourceTimer += Time.deltaTime;
+        if (resourceTimer >= resourceInterval)
+        {
+            resourceTimer = 0f; 
+            food += 1f;
+            wood += 1f;
+        }
     }
 
     public bool HasFood(float amount)
@@ -67,5 +80,10 @@ public class ResourceManager : MonoBehaviour
     public void RemoveTroop()
     {
         troops--;
+    }
+
+    public void DeregisterTroop()
+    {
+        troops = Mathf.Max(0, troops - 1);
     }
 }

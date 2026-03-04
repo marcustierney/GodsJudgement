@@ -36,6 +36,10 @@ public class UnitCombat : MonoBehaviour
         if (health != null && !health.isDead)
         {
             health.TakeDamage(damage);
+            if (health.isDead && GodManager.Instance != null && CompareTag("Friendly"))
+            {
+                GodManager.Instance.RegisterTroopKill();
+            }
             cooldownTimer = attackCooldown;
             return true;
         }

@@ -8,8 +8,7 @@ public class GodContext
     public float wood;
     public int troopDeaths;
     public int enemyDeaths;
-    public float timeSinceLastEvent;
-    public float aggression;
-    public float greed;
-    public float chaos;
+    public int troopKills;     
+    public float buildingSpread; 
+    public GodPersonality personality;
 }

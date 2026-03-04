@@ -1,21 +1,70 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 
 public class EarthquakeAction : GodAction
 {
     public override float CalculateUtility(GodContext context)
     {
-        return 0.3f * context.chaos;
+        if (context.personality.styleSatisfaction > 0.4f) //Only happens when style personality is dissatisfied
+        {
+            return 0;
+        }
+        return (1f - context.personality.styleSatisfaction) * 0.85f;
     }
 
     public override void Execute(GodContext context)
     {
-        Farm[] farms = GameObject.FindObjectsOfType<Farm>();
-
-        foreach (var farm in farms)
+        GameObject[] buildings = GameObject.FindGameObjectsWithTag("Building");
+        if (buildings.Length == 0)
         {
-            Object.Destroy(farm.gameObject);
+            return;
         }
-        Debug.Log("God caused earthquake");
+        //Calculate average building position for spread detection
+        Vector3 centroid = Vector3.zero; 
+        foreach (var b in buildings)
+        {
+            centroid += b.transform.position;
+        }
+        centroid /= buildings.Length;
+        List<GameObject> targets = new List<GameObject>();
+
+        if (context.personality.style == StyleType.Wild) //Wild is dissatisfied with closely grouped buildings destroy close ones
+        {
+            foreach (var b in buildings)
+            {
+                float dist = Vector3.Distance(b.transform.position, centroid);
+                if (dist < 5f) targets.Add(b);
+            }
+        }
+        else //Modern is dissatisfied with spread out buildings destroy far ones
+        {
+            foreach (var b in buildings)
+            {
+                float dist = Vector3.Distance(b.transform.position, centroid);
+                if (dist > 10f) targets.Add(b); 
+            }
+        }
+        int destroyCount = Mathf.Min(2, targets.Count); //Destroy up to 2 matching buildings
+        for (int i = 0; i < destroyCount; i++)
+        {
+            int idx = Random.Range(0, targets.Count);
+            BuildingHealth bh = targets[idx].GetComponent<BuildingHealth>();
+            if (bh != null)
+                bh.TakeDamage(999f); //destory building 
+            else
+                Object.Destroy(targets[idx]);
+            targets.RemoveAt(idx);
+        }
+
+        string styleType;
+        if (context.personality.style == StyleType.Wild)
+        {
+            styleType = "closely grouped";
+        }
+        else
+        {
+            styleType = "spread out";
+        }
+        Debug.Log($"Earthquake destroyed {destroyCount} {styleType} buildings");
     }
 }

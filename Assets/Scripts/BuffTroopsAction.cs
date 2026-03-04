@@ -4,18 +4,21 @@ public class BuffTroopsAction : GodAction
 {
     public override float CalculateUtility(GodContext context)
     {
-        float baseValue = 0;
-        if (context.troopCount < 5)
+        if (context.personality.morality != MoralityType.Violent)
         {
-            baseValue = 0.4f;
+            return 0;
         }
-        return baseValue * (1 - context.aggression);
+        //Only reward when satisfied with combat
+        if (context.personality.moralitySatisfaction < 0.6f)
+        {
+            return 0;
+        }
+        return context.personality.moralitySatisfaction * 0.75f;
     }
 
     public override void Execute(GodContext context)
     {
         GameObject[] troops = GameObject.FindGameObjectsWithTag("Friendly");
-
         foreach (var troop in troops)
         {
             UnitCombat combat = troop.GetComponent<UnitCombat>();
@@ -23,8 +26,12 @@ public class BuffTroopsAction : GodAction
             {
                 combat.damage *= 1.2f;
             }
+            UnitMovement movement = troop.GetComponent<UnitMovement>();
+            if (movement != null)
+            {
+                movement.speed *= 1.1f;
+            }
         }
-
-        Debug.Log("God buffed troops");
+        Debug.Log("Violent God rewarded troops with combat buffs");
     }
 }
