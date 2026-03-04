@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 4183898616703630044}
   - component: {fileID: 3818475605847678182}
   - component: {fileID: 3255200319897668818}
+  - component: {fileID: -4480306029672782840}
   m_Layer: 0
   m_Name: Barracks
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,8 +127,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Barracks
   troopPrefab: {fileID: 2136463195185529750, guid: 0ed10d30246f1954b8119eca29abb26e, type: 3}
   spawnInterval: 2
+  healthDecayPerSecond: 5
+--- !u!114 &-4480306029672782840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8814801135070819753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c34d5bbe67852b469b6b86cee8ab5e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingHealth
   maxHealth: 100
   currentHealth: 0
-  healthDecayPerSecond: 5
   foodHealAmount: 25
   foodCostPerFeed: 10

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3030503821288826039}
   - component: {fileID: 6799038897385479517}
   - component: {fileID: 7705737279950209295}
+  - component: {fileID: -6143190623145958062}
   m_Layer: 0
   m_Name: Farm
   m_TagString: Building
@@ -125,3 +126,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Farm
   foodPerSecond: 2
+--- !u!114 &-6143190623145958062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 144583799008702256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c34d5bbe67852b469b6b86cee8ab5e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingHealth
+  maxHealth: 100
+  currentHealth: 0
+  foodHealAmount: 25
+  foodCostPerFeed: 10

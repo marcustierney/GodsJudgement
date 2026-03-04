@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class UnitCombat : MonoBehaviour
 {
     public float damage = 10;
@@ -16,7 +15,6 @@ public class UnitCombat : MonoBehaviour
         cooldownTimer -= Time.deltaTime;
         Collider targetCollider = target.GetComponent<Collider>();
         Vector3 closestPoint;
-
         if (targetCollider != null)
         {
             closestPoint = targetCollider.ClosestPoint(transform.position);
@@ -38,6 +36,15 @@ public class UnitCombat : MonoBehaviour
         if (health != null && !health.isDead)
         {
             health.TakeDamage(damage);
+            cooldownTimer = attackCooldown;
+            return true;
+        }
+        BuildingHealth buildingHealth = target.GetComponent<BuildingHealth>();
+        if (buildingHealth != null)
+        {
+            buildingHealth.TakeDamage(damage);
+            cooldownTimer = attackCooldown;
+            return true;
         }
         cooldownTimer = attackCooldown;
         return true;

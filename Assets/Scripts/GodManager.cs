@@ -5,7 +5,7 @@ public class GodManager : MonoBehaviour
 {
     public static GodManager Instance;
 
-    public float thinkInterval = 5f;
+    public float thinkInterval = 10f;
     float timer;
 
     public List<GodAction> actions = new List<GodAction>();

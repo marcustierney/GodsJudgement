@@ -48,7 +48,6 @@ public class Turret : MonoBehaviour
         {
             health.TakeDamage(damage);
             Debug.DrawLine(transform.position + Vector3.up * 1.5f, enemy.transform.position + Vector3.up * 1f, Color.red, 0.1f, false);
-            print("enemy hit");
         }
     }
 

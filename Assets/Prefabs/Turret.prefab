@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1639371077177733532}
   - component: {fileID: 1218995984904238132}
   - component: {fileID: 5851611807613334724}
+  - component: {fileID: -7511504407762737055}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Building
@@ -129,3 +130,19 @@ MonoBehaviour:
   range: 10
   damage: 20
   fireRate: 1
+--- !u!114 &-7511504407762737055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1306611325686659140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c34d5bbe67852b469b6b86cee8ab5e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingHealth
+  maxHealth: 100
+  currentHealth: 0
+  foodHealAmount: 25
+  foodCostPerFeed: 10
