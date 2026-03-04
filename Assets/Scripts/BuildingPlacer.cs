@@ -123,6 +123,10 @@ public class BuildingPlacer : MonoBehaviour
         {
             halfExtents = new Vector3(1.5f, 0.5f, 1f);
         }
+        else if (buildingType == "barracks")
+        {
+            halfExtents = new Vector3(1f, 1.5f, 1f);
+        }
         else
         {
             halfExtents = new Vector3(0.5f, 1f, 0.5f);

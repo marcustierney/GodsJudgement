@@ -14,11 +14,17 @@ public class ResourceManager : MonoBehaviour
         Instance = this;
     }
 
+    public bool HasFood(float amount)
+    {
+        return food >= amount;
+    }
+
     public bool SpendFood(float amount)
     {
         if (food < amount)
+        {
             return false;
-
+        }
         food -= amount;
         return true;
     }
@@ -31,8 +37,9 @@ public class ResourceManager : MonoBehaviour
     public bool SpendWood(float amount)
     {
         if (wood < amount)
+        {
             return false;
-
+        }
         wood -= amount;
         return true;
     }

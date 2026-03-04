@@ -7,12 +7,15 @@ public class BuildingUI : MonoBehaviour
     public GameObject farmPrefab;
     public GameObject turretPrefab;
     public GameObject lumermillPrefab;
+    public GameObject barracksPrefab;
     public float lumbermillWoodCost = 30f;
     public float farmWoodCost = 50f;
     public float turretWoodCost = 80f;
+    public float barracksWoodCost = 60f;
     public Button farmButton;
     public Button turretButton;
     public Button lumbermillButton;
+    public Button barracksButton;
     public TextMeshProUGUI woodText;
     public TextMeshProUGUI foodText;
 
@@ -26,17 +29,20 @@ public class BuildingUI : MonoBehaviour
         bool hasWoodForFarm;
         bool hasWoodForTurret;
         bool hasWoodForLumbermill;
+        bool hasWoodForBarracks;
         if (ResourceManager.Instance != null)
         {
             hasWoodForFarm = ResourceManager.Instance.HasWood(farmWoodCost);
             hasWoodForTurret = ResourceManager.Instance.HasWood(turretWoodCost);
             hasWoodForLumbermill = ResourceManager.Instance.HasWood(lumbermillWoodCost);
+            hasWoodForBarracks = ResourceManager.Instance.HasWood(barracksWoodCost);
         }
         else
         {
             hasWoodForFarm = false;
             hasWoodForTurret = false;
             hasWoodForLumbermill = false;
+            hasWoodForBarracks = false;
         }
     }
 
@@ -53,5 +59,9 @@ public class BuildingUI : MonoBehaviour
     public void OnClickBuildLumbermill()
     {
         BuildingPlacer.Instance.StartPlacing(lumermillPrefab, lumbermillWoodCost, "lumbermill");
+    }
+    public void OnClickBuildBarracks()
+    {
+        BuildingPlacer.Instance.StartPlacing(barracksPrefab, barracksWoodCost, "barracks");
     }
 }
