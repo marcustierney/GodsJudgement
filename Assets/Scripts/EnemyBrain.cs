@@ -5,7 +5,7 @@ public class EnemyBrain : MonoBehaviour
     UnitMovement movement;
     UnitCombat combat;
     Health myHealth;
-    public float priorityRange = 10f; 
+    public float priorityRange = 5f; 
     public float targetUpdateInterval = 0.5f;
     private float targetTimer;
     private GameObject currentTarget;
