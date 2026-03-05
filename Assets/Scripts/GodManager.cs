@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GodManager : MonoBehaviour
 {
@@ -52,6 +53,7 @@ public class GodManager : MonoBehaviour
             timer = 0;
             UpdateContext();
             EvaluateSatisfaction();
+            CheckWinCondition();
             ChooseAction();
         }
     }
@@ -161,5 +163,15 @@ public class GodManager : MonoBehaviour
     public void RegisterTroopKill()
     {
         troopKills++;
+    }
+
+    void CheckWinCondition()
+    {
+        GodPersonality p = context.personality;
+        float threshold = 0.80f;
+        if (p.moralitySatisfaction >= threshold && p.styleSatisfaction >= threshold && p.consumptionSatisfaction >= threshold)
+        {
+            SceneManager.LoadScene("WinScene");
+        }
     }
 }
