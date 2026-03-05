@@ -50,21 +50,11 @@ public class EarthquakeAction : GodAction
             int idx = Random.Range(0, targets.Count);
             BuildingHealth bh = targets[idx].GetComponent<BuildingHealth>();
             if (bh != null)
-                bh.TakeDamage(999f); //destory building 
+                bh.TakeDamage(999f); //Destory building 
             else
                 Object.Destroy(targets[idx]);
             targets.RemoveAt(idx);
         }
-
-        string styleType;
-        if (context.personality.style == StyleType.Wild)
-        {
-            styleType = "closely grouped";
-        }
-        else
-        {
-            styleType = "spread out";
-        }
-        Debug.Log($"Earthquake destroyed {destroyCount} {styleType} buildings");
+        Debug.Log($"Earthquake destroyed {destroyCount} buildings");
     }
 }

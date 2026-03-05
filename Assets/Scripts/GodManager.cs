@@ -5,16 +5,18 @@ using UnityEngine.SceneManagement;
 public class GodManager : MonoBehaviour
 {
     public static GodManager Instance;
-
     public float thinkInterval = 10f;
     float timer;
-
     public List<GodAction> actions = new List<GodAction>();
     private GodContext context;
-
     private int troopDeaths = 0;
     private int enemyDeaths = 0;
     private int troopKills = 0;
+    private float prevMoralitySatisfaction = 0.5f;
+    private float prevStyleSatisfaction = 0.5f;
+    private float prevConsumptionSatisfaction = 0.5f;
+    private List<GodHint> activeHints = new List<GodHint>();
+    private float hintDuration = 6f;
 
     void Awake()
     {
@@ -48,14 +50,30 @@ public class GodManager : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= 10f) //timer >= thinkinterval
+        if (timer >= thinkInterval)
         {
             timer = 0;
             UpdateContext();
             EvaluateSatisfaction();
+            CheckHints();
             CheckWinCondition();
             ChooseAction();
         }
+        for (int i = activeHints.Count - 1; i >= 0; i--)
+        {
+            activeHints[i].timeRemaining -= Time.deltaTime;
+            if (activeHints[i].timeRemaining <= 0)
+            {
+                activeHints.RemoveAt(i);
+            }
+        }
+    }
+
+    private class GodHint
+    {
+        public string message;
+        public bool pleased;
+        public float timeRemaining;
     }
 
     void UpdateContext()
@@ -145,10 +163,85 @@ public class GodManager : MonoBehaviour
                 best = action;
             }
         }
-        if (best != null)
+        best.Execute(context);
+    }
+
+
+    void CheckWinCondition()
+    {
+        GodPersonality p = context.personality;
+        float threshold = 0.80f;
+        if (p.moralitySatisfaction >= threshold && p.styleSatisfaction >= threshold && p.consumptionSatisfaction >= threshold)
         {
-            Debug.Log("God chose: " + best.GetType().Name);
-            best.Execute(context);
+            SceneManager.LoadScene("WinScene");
+        }
+    }
+
+    void CheckHints()
+    {
+        GodPersonality p = context.personality;
+        float threshold = 0.10f;
+        CheckSatisfactionChange(prevMoralitySatisfaction, p.moralitySatisfaction, "morals", threshold);
+        CheckSatisfactionChange(prevStyleSatisfaction, p.styleSatisfaction, "style", threshold);
+        CheckSatisfactionChange(prevConsumptionSatisfaction, p.consumptionSatisfaction, "consumption", threshold);
+        //Save current values for next tick comparison
+        prevMoralitySatisfaction = p.moralitySatisfaction;
+        prevStyleSatisfaction = p.styleSatisfaction;
+        prevConsumptionSatisfaction = p.consumptionSatisfaction;
+    }
+
+    void CheckSatisfactionChange(float prev, float current, string label, float threshold)
+    {
+        float delta = current - prev;
+        if (delta >= threshold)
+        {
+            AddHint($"The God is pleased with your {label}.", pleased: true);
+        }
+        else if (delta <= -threshold)
+        {
+            AddHint($"The God is displeased with your {label}.", pleased: false);
+        }
+    }
+    void AddHint(string message, bool pleased)
+    {
+        activeHints.Add(new GodHint {message = message, pleased = pleased, timeRemaining = hintDuration});
+        Debug.Log(message);
+    }
+
+    void OnGUI() //UI
+    {
+        if (activeHints.Count == 0)
+        {
+            return;
+        }
+
+        float startY = Screen.height / 2f + 150;
+        float padding = 8f;
+        float boxHeight = 36f;
+
+        for (int i = 0; i < activeHints.Count; i++)
+        {
+            GodHint hint = activeHints[i];
+            float alpha = Mathf.Clamp01(hint.timeRemaining / hintDuration);
+            Color bgColor;
+            if (hint.pleased)
+            {
+                bgColor = new Color(0f, 0.5f, 0f, 0.7f * alpha); //Green
+            }
+            else
+            {
+                bgColor = new Color(0.5f, 0f, 0f, 0.7f * alpha); //Red
+            }
+            GUI.color = bgColor;
+            float y = startY + i * (boxHeight + padding);
+            Rect boxRect = new Rect(Screen.width / 2f - 200f, y, 400f, boxHeight);
+            GUI.DrawTexture(boxRect, Texture2D.whiteTexture);
+            GUIStyle style = new GUIStyle();
+            style.fontSize = 18;
+            style.alignment = TextAnchor.MiddleCenter;
+            style.normal.textColor = new Color(1f, 1f, 1f, alpha);
+            GUI.color = Color.white;
+            GUI.Label(boxRect, hint.message, style);
         }
     }
 
@@ -163,15 +256,5 @@ public class GodManager : MonoBehaviour
     public void RegisterTroopKill()
     {
         troopKills++;
-    }
-
-    void CheckWinCondition()
-    {
-        GodPersonality p = context.personality;
-        float threshold = 0.80f;
-        if (p.moralitySatisfaction >= threshold && p.styleSatisfaction >= threshold && p.consumptionSatisfaction >= threshold)
-        {
-            SceneManager.LoadScene("WinScene");
-        }
     }
 }
