@@ -6,6 +6,7 @@ public class UnitMovement : MonoBehaviour
     public float stoppingDistance = 0.2f;
     private Rigidbody rb;
     private Vector3? currentTarget = null;
+    public float lockedY = 1.5f;
 
     void Awake()
     {
@@ -16,6 +17,11 @@ public class UnitMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (rb.position.y != lockedY)
+        {
+            rb.position = new Vector3(rb.position.x, lockedY, rb.position.z);
+        }
+
         if (currentTarget == null)
         {
             return;

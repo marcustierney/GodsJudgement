@@ -2021,7 +2021,7 @@ Transform:
   m_GameObject: {fileID: 1053708650}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -47.4, y: 0.5, z: 1}
+  m_LocalPosition: {x: -55, y: 0.5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2170,7 +2170,7 @@ Transform:
   m_GameObject: {fileID: 1084750503}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 42.3, y: 0.5, z: 1}
+  m_LocalPosition: {x: 55, y: 0.5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2729,6 +2729,56 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1897829927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1897829929}
+  - component: {fileID: 1897829928}
+  m_Layer: 0
+  m_Name: WaveSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1897829928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897829927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab12e9b963a92dd41bf02c02d84354f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveSpawner
+  enemySpawner: {fileID: 2001336994}
+  timeBetweenWaves: 30
+  baseEnemiesPerWave: 3
+  enemiesAddedPerWave: 2
+  currentWave: 0
+  countdownDuration: 5
+--- !u!4 &1897829929
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897829927}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.14175, y: 0.5, z: -14.13344}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2001336992
 GameObject:
   m_ObjectHideFlags: 0
@@ -2838,7 +2888,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3412261735596070929, guid: 152264689e2c72142999062f0a02a2fc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.5
+      value: 2.42
       objectReference: {fileID: 0}
     - target: {fileID: 3412261735596070929, guid: 152264689e2c72142999062f0a02a2fc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2905,3 +2955,4 @@ SceneRoots:
   - {fileID: 791980553}
   - {fileID: 586468369}
   - {fileID: 7464612597527319385}
+  - {fileID: 1897829929}
