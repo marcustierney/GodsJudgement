@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -40,6 +41,6 @@ public class GameManager : MonoBehaviour
     public void LoseGame()
     {
         gameOver = true;
-        Debug.Log("Game Over Town Hall Destroyed");
+        SceneManager.LoadScene("LoseScene");
     }
 }
