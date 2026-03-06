@@ -127,6 +127,10 @@ public class BuildingPlacer : MonoBehaviour
         {
             halfExtents = new Vector3(1f, 1.5f, 1f);
         }
+        else if (buildingType == "wall")
+        {
+            halfExtents = new Vector3(0.5f, 2.5f, 1.5f);
+        }
         else
         {
             halfExtents = new Vector3(0.5f, 1f, 0.5f);

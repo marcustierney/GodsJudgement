@@ -12,6 +12,7 @@ public class UnitCombat : MonoBehaviour
         {
             return false;
         }
+
         cooldownTimer -= Time.deltaTime;
         Collider targetCollider = target.GetComponent<Collider>();
         Vector3 closestPoint;
@@ -47,6 +48,14 @@ public class UnitCombat : MonoBehaviour
         if (buildingHealth != null)
         {
             buildingHealth.TakeDamage(damage);
+            cooldownTimer = attackCooldown;
+            return true;
+        }
+        cooldownTimer = attackCooldown;
+        Wall wall = target.GetComponent<Wall>();
+        if (wall != null)
+        {
+            wall.TakeDamage(damage);
             cooldownTimer = attackCooldown;
             return true;
         }

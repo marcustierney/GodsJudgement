@@ -98,7 +98,16 @@ public class EnemyBrain : MonoBehaviour
         foreach (var b in buildings)
         {
             BuildingHealth bh = b.GetComponent<BuildingHealth>();
-            if (bh == null || bh.currentHealth <= 0)
+            Wall wall = b.GetComponent<Wall>();
+            if (bh == null && wall == null)
+            {
+                continue;
+            }
+            if (bh != null && bh.currentHealth <= 0)
+            {
+                continue;
+            }
+            if (wall != null && wall.currentHealth <= 0)
             {
                 continue;
             }
@@ -132,6 +141,11 @@ public class EnemyBrain : MonoBehaviour
         if (childBh != null)
         {
             return childBh.currentHealth > 0;
+        }
+        Wall wall = target.GetComponent<Wall>();
+        if (wall != null)
+        {
+            return wall.currentHealth > 0;
         }
         return true;
     }
