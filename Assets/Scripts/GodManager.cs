@@ -163,7 +163,10 @@ public class GodManager : MonoBehaviour
                 best = action;
             }
         }
-        best.Execute(context);
+        if (best != null) 
+        {
+            best.Execute(context);
+        }
     }
 
 
@@ -173,6 +176,13 @@ public class GodManager : MonoBehaviour
         float threshold = 0.80f;
         if (p.moralitySatisfaction >= threshold && p.styleSatisfaction >= threshold && p.consumptionSatisfaction >= threshold)
         {
+            GameOverData.Instance.moralitySatisfaction = p.moralitySatisfaction;
+            GameOverData.Instance.styleSatisfaction = p.styleSatisfaction;
+            GameOverData.Instance.consumptionSatisfaction = p.consumptionSatisfaction;
+            GameOverData.Instance.morality = p.morality;
+            GameOverData.Instance.style = p.style;
+            GameOverData.Instance.consumption = p.consumption;
+            GameOverData.Instance.wavesReached = WaveSpawner.Instance.currentWave;
             SceneManager.LoadScene("WinScene");
         }
     }
@@ -245,6 +255,10 @@ public class GodManager : MonoBehaviour
         }
     }
 
+    public GodPersonality GetPersonality()
+    {
+        return context.personality;
+    }
     public void RegisterTroopDeath()
     {
         troopDeaths++;

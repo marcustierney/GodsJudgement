@@ -41,6 +41,6 @@ public class GameManager : MonoBehaviour
     public void LoseGame()
     {
         gameOver = true;
-        SceneManager.LoadScene("LoseScene");
+        //SceneManager.LoadScene("LoseScene");
     }
 }
