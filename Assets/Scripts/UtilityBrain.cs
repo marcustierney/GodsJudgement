@@ -4,11 +4,13 @@ using UnityEngine;
 public class UtilityBrain : MonoBehaviour
 {
     public List<UtilityAction> actions = new List<UtilityAction>();
-    public float thinkInterval = 0.25f;
+    public float thinkInterval = 0.5f;
     private float timer;
     private AIContext context;
     private UtilityAction currentAction;
     private Health health;
+    public float actionSwitchThreshold = 0.2f;
+    private float currentActionScore = 0f;
 
     void Start()
     {
@@ -52,8 +54,18 @@ public class UtilityBrain : MonoBehaviour
                 best = action;
             }
         }
-
-        currentAction = best;
+        if (best != null && best != currentAction)
+        {
+            if (bestScore > currentActionScore + actionSwitchThreshold)
+            {
+                currentAction = best;
+                currentActionScore = bestScore;
+            }
+        }
+        else if (best != null)
+        {
+            currentActionScore = bestScore;
+        }
     }
 
     void UpdateContext()

@@ -5,7 +5,12 @@ public class UnitCombat : MonoBehaviour
     public float attackRange = 2f;
     public float attackCooldown = 1f;
     float cooldownTimer;
+    private bool currentlyAttacking = false;
 
+    public bool IsAttacking()
+    {
+        return currentlyAttacking;
+    }
     public bool TryAttack(GameObject target)
     {
         if (target == null)
@@ -27,8 +32,10 @@ public class UnitCombat : MonoBehaviour
         float dist = Vector3.Distance(transform.position, closestPoint);
         if (dist > attackRange)
         {
+            currentlyAttacking = false;
             return false;
         }
+        currentlyAttacking = true;
         if (cooldownTimer > 0)
         {
             return true;
@@ -40,8 +47,7 @@ public class UnitCombat : MonoBehaviour
             EnemyAnimator targetAnim = target.GetComponent<EnemyAnimator>();
             if (targetAnim != null)
             {
-                targetAnim.TriggerHit();
-                print("enemy anim");
+                TriggerHitAnimation(target);
             }
             if (health.isDead && GodManager.Instance != null && CompareTag("Friendly"))
             {
@@ -67,5 +73,20 @@ public class UnitCombat : MonoBehaviour
         }
         cooldownTimer = attackCooldown;
         return true;
+    }
+
+    void TriggerHitAnimation(GameObject target)
+    {
+        EnemyAnimator enemyAnim = target.GetComponent<EnemyAnimator>();
+        if (enemyAnim != null)
+        {
+            enemyAnim.TriggerHit();
+            return;
+        }
+        TroopAnimator troopAnim = target.GetComponent<TroopAnimator>();
+        if (troopAnim != null)
+        {
+            troopAnim.TriggerHit();
+        }
     }
 }

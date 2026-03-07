@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bbb39484f940ed4d9fb54efb43d9401, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Barracks
-  troopPrefab: {fileID: 2136463195185529750, guid: 0ed10d30246f1954b8119eca29abb26e, type: 3}
+  troopPrefab: {fileID: 6551560877328338266, guid: 01e07a86f2211af46a8413b622de8ade, type: 3}
   spawnInterval: 2
   healthDecayPerSecond: 5
 --- !u!114 &-4480306029672782840

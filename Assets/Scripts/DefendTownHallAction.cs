@@ -14,12 +14,16 @@ public class DefendTownHallAction : UtilityAction
         {
             return 0;
         }
-        if (context.nearestEnemyDistance > 15f)
+        if (context.nearestEnemyDistance < 8f)
         {
             return 0;
         }
-        float urgency = context.nearestEnemyDistance / 15f;
-        return 2f + urgency;
+        if (context.nearestEnemyDistance > 20f)
+        {
+            return 0;
+        }
+        float urgency = 1f - (context.distanceToTownHall / 30f);
+        return Mathf.Clamp01(urgency) * 0.8f;
     }
 
     public override void Execute(AIContext context)

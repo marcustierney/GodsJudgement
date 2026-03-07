@@ -6,8 +6,6 @@ public class EnemyAnimator : MonoBehaviour
     private UnitMovement movement;
     private Health health;
     private EnemyBrain brain;
-
-    // Track previous state to avoid redundant SetBool calls
     private bool wasWalking = false;
     private bool wasAttacking = false;
 
@@ -17,27 +15,21 @@ public class EnemyAnimator : MonoBehaviour
         movement = GetComponent<UnitMovement>();
         health = GetComponent<Health>();
         brain = GetComponent<EnemyBrain>();
-
-        if (animator == null)
-            Debug.LogError($"{gameObject.name}: missing Animator component!");
     }
 
     void Update()
     {
-        if (animator == null) return;
-        if (health != null && health.isDead) return;
-
+        if (health != null && health.isDead)
+        {
+            return;
+        }
         UpdateMovementAnimation();
         UpdateAttackAnimation();
     }
 
     void UpdateMovementAnimation()
     {
-        // Walking if movement has an active target and isn't attacking
-        bool isWalking = movement != null &&
-                         !movement.HasReachedTarget() &&
-                         !wasAttacking;
-
+        bool isWalking = movement != null && !movement.HasReachedTarget() && !wasAttacking;
         if (isWalking != wasWalking)
         {
             animator.SetBool("IsWalking", isWalking);
@@ -60,12 +52,16 @@ public class EnemyAnimator : MonoBehaviour
     public void TriggerHit()
     {
         if (animator != null && (health == null || !health.isDead))
+        {
             animator.SetTrigger("Hit");
+        }
     }
 
     public void TriggerDeath()
     {
         if (animator != null)
+        {
             animator.SetTrigger("Die");
+        }
     }
 }

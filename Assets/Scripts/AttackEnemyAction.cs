@@ -9,7 +9,7 @@ public class AttackEnemyAction : UtilityAction
         }
         float healthPercent = context.health / context.maxHealth;
         float distanceScore = 1f / (context.nearestEnemyDistance + 1);
-        return healthPercent * distanceScore * 10;
+        return healthPercent * distanceScore * 15;
     }
 
     public override void Execute(AIContext context)

@@ -54,10 +54,18 @@ public class Health : MonoBehaviour
             return;
         }
         isDead = true;
-        EnemyAnimator enemyAnim = GetComponent<EnemyAnimator>();
-        if (enemyAnim != null)
+        TroopAnimator troopAnim = GetComponent<TroopAnimator>();
+        if (troopAnim != null)
         {
-            enemyAnim.TriggerDeath();
+            troopAnim.TriggerDeath();
+        }
+        else
+        {
+            EnemyAnimator enemyAnim = GetComponent<EnemyAnimator>();
+            if (enemyAnim != null)
+            {
+                enemyAnim.TriggerDeath();
+            }
         }
         if (CompareTag("Friendly"))
         {
