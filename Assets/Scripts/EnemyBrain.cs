@@ -9,12 +9,14 @@ public class EnemyBrain : MonoBehaviour
     public float targetUpdateInterval = 0.5f;
     private float targetTimer;
     private GameObject currentTarget;
+    private bool currentlyAttacking = false;
 
     void Start()
     {
         movement = GetComponent<UnitMovement>();
         combat = GetComponent<UnitCombat>();
         myHealth = GetComponent<Health>();
+        transform.rotation = Quaternion.Euler(0, -90, 0);
     }
 
     void Update()
@@ -32,14 +34,17 @@ public class EnemyBrain : MonoBehaviour
         if (currentTarget == null)
         {
             currentTarget = FindBestTarget();
+            currentlyAttacking = false;
             return;
         }
         if (!IsTargetAlive(currentTarget))
         {
             currentTarget = null;
+            currentlyAttacking = false;
             return;
         }
         bool inRange = combat.TryAttack(currentTarget);
+        currentlyAttacking = inRange;
         if (!inRange)
         {
             movement.MoveTo(currentTarget.transform.position);
@@ -148,5 +153,11 @@ public class EnemyBrain : MonoBehaviour
             return wall.currentHealth > 0;
         }
         return true;
+    }
+
+    public bool IsAttacking()
+    {
+        Debug.Log($"{gameObject.name} IsAttacking: {currentlyAttacking}");
+        return currentlyAttacking;
     }
 }

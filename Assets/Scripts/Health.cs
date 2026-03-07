@@ -49,9 +49,16 @@ public class Health : MonoBehaviour
 
     void Die()
     {
-        if (isDead) return;
+        if (isDead)
+        {
+            return;
+        }
         isDead = true;
-        isDead = true;
+        EnemyAnimator enemyAnim = GetComponent<EnemyAnimator>();
+        if (enemyAnim != null)
+        {
+            enemyAnim.TriggerDeath();
+        }
         if (CompareTag("Friendly"))
         {
             GodManager.Instance.RegisterTroopDeath();
@@ -68,7 +75,7 @@ public class Health : MonoBehaviour
         {
             OnDeath.Invoke(gameObject);
         }
-        Destroy(gameObject);
+        Destroy(gameObject, 1.5f);
     }
 
     void TriggerGameOver()

@@ -37,6 +37,12 @@ public class UnitCombat : MonoBehaviour
         if (health != null && !health.isDead)
         {
             health.TakeDamage(damage);
+            EnemyAnimator targetAnim = target.GetComponent<EnemyAnimator>();
+            if (targetAnim != null)
+            {
+                targetAnim.TriggerHit();
+                print("enemy anim");
+            }
             if (health.isDead && GodManager.Instance != null && CompareTag("Friendly"))
             {
                 GodManager.Instance.RegisterTroopKill();

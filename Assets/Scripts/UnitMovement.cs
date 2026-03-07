@@ -6,7 +6,7 @@ public class UnitMovement : MonoBehaviour
     public float stoppingDistance = 0.2f;
     private Rigidbody rb;
     private Vector3? currentTarget = null;
-    public float lockedY = 1.5f;
+    public float lockedY = 0.5f;
 
     void Awake()
     {
@@ -19,7 +19,7 @@ public class UnitMovement : MonoBehaviour
     {
         if (rb.position.y != lockedY)
         {
-            rb.position = new Vector3(rb.position.x, lockedY, rb.position.z);
+            rb.position = new Vector3(rb.position.x, 0.5f, rb.position.z);
         }
 
         if (currentTarget == null)
@@ -37,7 +37,10 @@ public class UnitMovement : MonoBehaviour
         }
 
         dir.Normalize();
+        Quaternion targetRotation = Quaternion.LookRotation(dir);
+        rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, 10f * Time.fixedDeltaTime);
         Vector3 newPos = rb.position + dir * speed * Time.fixedDeltaTime;
+        newPos.y = 0.5f;
         rb.MovePosition(newPos);
     }
 
