@@ -17,6 +17,11 @@ public class GodManager : MonoBehaviour
     private float prevConsumptionSatisfaction = 0.5f;
     private List<GodHint> activeHints = new List<GodHint>();
     private float hintDuration = 6f;
+    private int deathsInWindow = 0;
+    private float moralityWindowTimer = 0f;
+    private float moralityWindowDuration = 10f;
+    private int deathThreshold = 5;
+    private float moralitySatisfactionStep = 0.04f;
 
     void Awake()
     {
@@ -49,12 +54,19 @@ public class GodManager : MonoBehaviour
 
     void Update()
     {
+        moralityWindowTimer += Time.deltaTime;
+        if (moralityWindowTimer >= moralityWindowDuration)
+        {
+            moralityWindowTimer = 0;
+            EvaluateMoralitySatisfaction();
+            deathsInWindow = 0; 
+        }
         timer += Time.deltaTime;
         if (timer >= thinkInterval)
         {
             timer = 0;
             UpdateContext();
-            EvaluateSatisfaction();
+            EvaluateStyleAndConsumption();
             CheckHints();
             CheckWinCondition();
             ChooseAction();
@@ -88,36 +100,54 @@ public class GodManager : MonoBehaviour
         context.buildingSpread = CalculateBuildingSpread();
     }
 
-    void EvaluateSatisfaction()
+    void EvaluateMoralitySatisfaction()
     {
         GodPersonality p = context.personality;
-        if (p.morality == MoralityType.Peaceful) //Satisfied when few deaths on either side prefers preservation
-        {
-            float deathPenalty = Mathf.Clamp01((troopDeaths + enemyDeaths) / 20f);
-            p.moralitySatisfaction = 1f - deathPenalty;
-        }
-        else //Satisfied when lots of kills and troop deaths (combat happening)
-        {
-            p.moralitySatisfaction = Mathf.Clamp01((troopKills + troopDeaths) / 20f);
-        }
 
+        if (p.morality == MoralityType.Peaceful) //fewer than 5 deaths in 10 seconds
+        {
+            if (deathsInWindow < deathThreshold)
+            {
+                p.moralitySatisfaction = Mathf.Clamp01(p.moralitySatisfaction + moralitySatisfactionStep);
+            }
+            else
+            {
+                p.moralitySatisfaction = Mathf.Clamp01(p.moralitySatisfaction - moralitySatisfactionStep);
+            }
+        }
+        else //more than 5 deaths in 10 seconds
+        {
+            if (deathsInWindow > deathThreshold)
+            {
+                p.moralitySatisfaction = Mathf.Clamp01(p.moralitySatisfaction + moralitySatisfactionStep);
+            }
+            else
+            {
+                p.moralitySatisfaction = Mathf.Clamp01(p.moralitySatisfaction - moralitySatisfactionStep);
+            }
+        }
+    }
+
+    void EvaluateStyleAndConsumption()
+    {
+        GodPersonality p = context.personality;
         if (p.style == StyleType.Wild) //Satisfied when buildings are spread apart
         {
-            p.styleSatisfaction = Mathf.Clamp01(context.buildingSpread / 20f);
+            p.styleSatisfaction = Mathf.Clamp01(context.buildingSpread / 40f);
         }
         else //Satisfied when buildings are close together
         {
-            p.styleSatisfaction = Mathf.Clamp01(1f - (context.buildingSpread / 20f));
+            p.styleSatisfaction = Mathf.Clamp01(1f - (context.buildingSpread / 40f));
         }
 
         if (p.consumption == ConsumptionType.Glutton) //Satisfied when resources are low
         {
-            float resourceLevel = Mathf.Clamp01((context.food + context.wood) / 200f);
+            float resourceLevel = Mathf.Clamp01((context.food + context.wood) / 500f);
             p.consumptionSatisfaction = 1f - resourceLevel;
         }
         else //Satisfied when resources are high
         {
-            p.consumptionSatisfaction = Mathf.Clamp01((context.food + context.wood) / 200f);
+            p.consumptionSatisfaction = Mathf.Clamp01((context.food + context.wood) / 500f);
         }
         Debug.Log($"Satisfaction - Morality: {p.moralitySatisfaction:F2} " + $"Style: {p.styleSatisfaction:F2} " + $"Consumption: {p.consumptionSatisfaction:F2} " + $"Overall: {p.OverallSatisfaction:F2}");
     }
@@ -262,10 +292,12 @@ public class GodManager : MonoBehaviour
     public void RegisterTroopDeath()
     {
         troopDeaths++;
+        deathsInWindow++;
     }
     public void RegisterEnemyDeath() 
     {
         enemyDeaths++;
+        deathsInWindow++;
     }
     public void RegisterTroopKill()
     {
