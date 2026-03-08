@@ -34,6 +34,12 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("CreditsScene");
     }
 
+    public void BackToMenu()
+    {
+        PlaySound();
+        SceneManager.LoadScene("MenuScene");
+    }
+
     public void QuitGame()
     {
         PlaySound();

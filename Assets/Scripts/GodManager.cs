@@ -40,6 +40,7 @@ public class GodManager : MonoBehaviour
         context.personality.moralitySatisfaction = 0.5f;
         context.personality.styleSatisfaction = 0.5f;
         context.personality.consumptionSatisfaction = 0.5f;
+        ApplyDifficulty();
         Debug.Log("Morality: " + context.personality.morality);
         Debug.Log("Style: " + context.personality.style);
         Debug.Log("Consumption: " + context.personality.consumption);
@@ -86,6 +87,26 @@ public class GodManager : MonoBehaviour
         public string message;
         public bool pleased;
         public float timeRemaining;
+    }
+
+    void ApplyDifficulty()
+    {
+        if (DifficultyData.Instance == null) return;
+
+        switch (DifficultyData.Instance.selectedDifficulty)
+        {
+            case Difficulty.Easy:
+                thinkInterval = 30f;
+                break;
+            case Difficulty.Medium:
+                thinkInterval = 15f;
+                break;
+            case Difficulty.Hard:
+                thinkInterval = 9f; 
+                break;
+        }
+
+        Debug.Log($"GodManager difficulty applied: {DifficultyData.Instance.selectedDifficulty}");
     }
 
     void UpdateContext()

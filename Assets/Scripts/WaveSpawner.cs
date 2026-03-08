@@ -24,6 +24,7 @@ public class WaveSpawner : MonoBehaviour
 
     void Start()
     {
+        ApplyDifficulty();
         StartCountdown();
     }
 
@@ -74,6 +75,31 @@ public class WaveSpawner : MonoBehaviour
     public void SpawnBonus(int amount)
     {
         enemySpawner.SpawnEnemies(amount); //God Spawned extra enemies
+    }
+
+    void ApplyDifficulty()
+    {
+        switch (DifficultyData.Instance.selectedDifficulty)
+        {
+            case Difficulty.Easy:
+                timeBetweenWaves = 45f;
+                baseEnemiesPerWave = 2;
+                enemiesAddedPerWave = 1;
+                countdownDuration = 8f;
+                break;
+            case Difficulty.Medium:
+                timeBetweenWaves = 30f;
+                baseEnemiesPerWave = 3;
+                enemiesAddedPerWave = 2;
+                countdownDuration = 5f;
+                break;
+            case Difficulty.Hard:
+                timeBetweenWaves = 20f;
+                baseEnemiesPerWave = 5;
+                enemiesAddedPerWave = 3;
+                countdownDuration = 3f;
+                break;
+        }
     }
 
     void UpdateUI()
