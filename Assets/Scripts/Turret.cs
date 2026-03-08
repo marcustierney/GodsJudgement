@@ -5,17 +5,24 @@ public class Turret : MonoBehaviour
     public float range = 10f;
     public float damage = 20f;
     public float fireRate = 1f; 
-
     private float fireCooldown = 0f;
-
+    public GameObject arrowPrefab;
+    public Transform arrowSpawnPoint;
+    private GameObject currentTarget;
+    private void Start()
+    {
+        transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
+        Vector3 pos = transform.position;
+        pos.y = -0.2f;
+        transform.position = pos;
+    }
     void Update()
     {
         fireCooldown -= Time.deltaTime;
-
-        GameObject target = FindNearestEnemy();
-        if (target != null && fireCooldown <= 0f)
+        currentTarget = FindNearestEnemy();
+        if (currentTarget != null && fireCooldown <= 0f)
         {
-            Attack(target);
+            ShootArrow();
             fireCooldown = 1f / fireRate;
         }
     }
@@ -28,6 +35,11 @@ public class Turret : MonoBehaviour
 
         foreach (var enemy in enemies)
         {
+            Health h = enemy.GetComponent<Health>();
+            if (h != null && h.isDead)
+            {
+                continue;
+            }
             float dist = Vector3.Distance(transform.position, enemy.transform.position);
             if (dist < closestDist && dist <= range)
             {
@@ -39,21 +51,23 @@ public class Turret : MonoBehaviour
         return nearest;
     }
 
-    void Attack(GameObject enemy)
+    void ShootArrow()
     {
-        if (enemy == null) return;
-
-        Health health = enemy.GetComponent<Health>();
-        if (health != null)
+        if (currentTarget == null)
         {
-            health.TakeDamage(damage);
-            Debug.DrawLine(transform.position + Vector3.up * 1.5f, enemy.transform.position + Vector3.up * 1f, Color.red, 0.1f, false);
+            return;
         }
+        Vector3 targetPos;
+        Collider enemyCollider = currentTarget.GetComponent<Collider>();
+        targetPos = enemyCollider.bounds.center;
+        Vector3 dir = (targetPos - arrowSpawnPoint.position).normalized;
+        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, Quaternion.identity);
+        Arrow arrowScript = arrow.GetComponent<Arrow>();
+        arrowScript.Launch(dir);
     }
 
     void OnDrawGizmosSelected()
     {
-        //visualize turret range
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, range);
     }
