@@ -1859,7 +1859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BuildingUI
   farmPrefab: {fileID: 219437866164444124, guid: e32dd327724daf343aacf78f6f0bb476, type: 3}
   turretPrefab: {fileID: 1306611325686659140, guid: d40667e525e937e438a2d90f07a84915, type: 3}
-  lumermillPrefab: {fileID: 9123012081586528453, guid: aa1c1766f4c07fd44a4876287ee2d2fc, type: 3}
+  lumermillPrefab: {fileID: 496432044379448582, guid: 32415f2fb7896ed498fdbf8196304d2d, type: 3}
   barracksPrefab: {fileID: 8814801135070819753, guid: 152264689e2c72142999062f0a02a2fc, type: 3}
   wallPrefab: {fileID: 469893450746141978, guid: b4489ba4a35b82549ba2b6ca3b713678, type: 3}
   lumbermillWoodCost: 30
