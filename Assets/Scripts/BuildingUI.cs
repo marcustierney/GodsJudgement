@@ -29,27 +29,47 @@ public class BuildingUI : MonoBehaviour
             woodText.text = $"Wood: {ResourceManager.Instance.wood:F0}";
             foodText.text = $"Food: {ResourceManager.Instance.food:F0}";
         }
-        bool hasWoodForFarm;
-        bool hasWoodForTurret;
-        bool hasWoodForLumbermill;
-        bool hasWoodForBarracks;
-        if (ResourceManager.Instance != null)
-        {
-            hasWoodForFarm = ResourceManager.Instance.HasWood(farmWoodCost);
-            hasWoodForTurret = ResourceManager.Instance.HasWood(turretWoodCost);
-            hasWoodForLumbermill = ResourceManager.Instance.HasWood(lumbermillWoodCost);
-            hasWoodForBarracks = ResourceManager.Instance.HasWood(barracksWoodCost);
-            wallButton.interactable = ResourceManager.Instance.HasWood(wallWoodCost);
-        }
-        else
-        {
-            hasWoodForFarm = false;
-            hasWoodForTurret = false;
-            hasWoodForLumbermill = false;
-            hasWoodForBarracks = false;
-        }
+        UpdateButton(farmButton, ResourceManager.Instance.HasWood(farmWoodCost));
+        UpdateButton(turretButton, ResourceManager.Instance.HasWood(turretWoodCost));
+        UpdateButton(lumbermillButton, ResourceManager.Instance.HasWood(lumbermillWoodCost));
+        UpdateButton(barracksButton, ResourceManager.Instance.HasWood(barracksWoodCost));
+        UpdateButton(wallButton, ResourceManager.Instance.HasWood(wallWoodCost));
     }
 
+    void UpdateButton(Button button, bool canAfford)
+    {
+        button.interactable = canAfford;
+
+        Image img = button.GetComponent<Image>();
+        if (img != null)
+        {
+            Color c = img.color;
+            if (canAfford)
+            {
+                c.a = 1f;
+            }
+            else
+            {
+                c.a = 0.4f;
+            }
+            img.color = c;
+        }
+
+        TextMeshProUGUI label = button.GetComponentInChildren<TextMeshProUGUI>();
+        if (label != null)
+        {
+            Color tc = label.color;
+            if (canAfford)
+            {
+                tc.a = 1f;
+            }
+            else
+            {
+                tc.a = 0.4f;
+            }
+            label.color = tc;
+        }
+    }
     public void OnClickBuildFarm()
     {
         BuildingPlacer.Instance.StartPlacing(farmPrefab, farmWoodCost, "farm");
