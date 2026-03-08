@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class WaveSpawner : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class WaveSpawner : MonoBehaviour
     public float countdownDuration = 5f; 
     private float countdown;
     private bool countingDown = false;
+    public TextMeshProUGUI waveText;
+    public TextMeshProUGUI nextWaveText;
 
     void Awake()
     {
@@ -29,6 +32,7 @@ public class WaveSpawner : MonoBehaviour
         if (countingDown)
         {
             countdown -= Time.deltaTime;
+            UpdateUI();
             if (countdown <= 0)
             {
                 countingDown = false;
@@ -43,6 +47,7 @@ public class WaveSpawner : MonoBehaviour
         }
 
         waveTimer += Time.deltaTime;
+        UpdateUI();
         if (waveTimer >= timeBetweenWaves)
         {
             waveTimer = 0;
@@ -55,6 +60,7 @@ public class WaveSpawner : MonoBehaviour
         countdown = countdownDuration;
         countingDown = true;
         waitingForWave = false;
+        UpdateUI();
     }
 
     void SpawnWave()
@@ -63,30 +69,31 @@ public class WaveSpawner : MonoBehaviour
         int enemyCount = baseEnemiesPerWave + (currentWave - 1) * enemiesAddedPerWave;
         enemySpawner.SpawnEnemies(enemyCount);
         Debug.Log($"Wave {currentWave} spawned with {enemyCount} enemies.");
+        UpdateUI();
     }
     public void SpawnBonus(int amount)
     {
         enemySpawner.SpawnEnemies(amount); //God Spawned extra enemies
     }
 
-    void OnGUI() //UI
+    void UpdateUI()
     {
-        GUIStyle style = new GUIStyle();
-        style.fontSize = 20;
-        style.normal.textColor = Color.white;
-        style.alignment = TextAnchor.UpperRight;
-        float x = Screen.width - 210f;
-        GUI.Label(new Rect(x, 10, 200, 30), $"Wave: {currentWave}", style);
-        if (countingDown)
+        if (waveText != null)
         {
-            style.normal.textColor = Color.red;
-            GUI.Label(new Rect(x, 40, 200, 30), $"Next wave: {countdown:F1}s", style);
+            waveText.text = $"Wave: {currentWave}";
         }
-        else
+
+        if (nextWaveText != null)
         {
-            style.normal.textColor = Color.yellow;
-            float timeUntilNext = timeBetweenWaves - waveTimer;
-            GUI.Label(new Rect(x, 40, 200, 30), $"Next wave: {timeUntilNext:F1}s", style);
+            if (countingDown)
+            {
+                nextWaveText.text = $"Next wave: {countdown:F1}s";
+            }
+            else
+            {
+                float timeUntilNext = timeBetweenWaves - waveTimer;
+                nextWaveText.text = $"Next wave: {timeUntilNext:F1}s";
+            }
         }
     }
 }

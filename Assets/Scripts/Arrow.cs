@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    public float damage = 30f;
+    public float damage = 40f;
     public float lifetime = 5f;
     public float speed = 15f;
     private bool hasHit = false;

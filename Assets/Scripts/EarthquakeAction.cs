@@ -5,7 +5,7 @@ public class EarthquakeAction : GodAction
 {
     public override float CalculateUtility(GodContext context)
     {
-        if (context.personality.styleSatisfaction > 0.4f) //Only happens when style personality is dissatisfied
+        if (context.personality.styleSatisfaction > 0.25f) //Only happens when style personality is dissatisfied
         {
             return 0;
         }

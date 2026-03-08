@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Turret
   range: 10
-  damage: 30
+  damage: 40
   fireRate: 1
   arrowPrefab: {fileID: 6535959039676801886, guid: ad3299349bd2af34b83b9ceaeaa6cd9e, type: 3}
   arrowSpawnPoint: {fileID: 11448999610648396}
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c34d5bbe67852b469b6b86cee8ab5e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingHealth
-  maxHealth: 100
+  maxHealth: 200
   currentHealth: 0
   foodHealAmount: 25
   foodCostPerFeed: 10
