@@ -142,7 +142,7 @@ public class BuildingPlacer : MonoBehaviour
             {
                 continue;
             }
-            if (hit.CompareTag("Building") || hit.CompareTag("TownHall"))
+            if (hit.CompareTag("Building") || hit.CompareTag("TownHall") || hit.CompareTag("Tree"))
             {
                 return false;
             }
