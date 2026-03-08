@@ -13,12 +13,19 @@ public class BuildingPlacer : MonoBehaviour
     private bool isPlacing = false;
     private Camera mainCam;
     private LayerMask groundLayer;
+    public AudioClip farmPlaceSound;
+    public AudioClip turretPlaceSound;
+    public AudioClip lumbermillPlaceSound;
+    public AudioClip barracksPlaceSound;
+    public AudioClip wallPlaceSound;
+    private AudioSource audioSource;
 
     void Awake()
     {
         Instance = this;
         mainCam = Camera.main;
         groundLayer = LayerMask.GetMask("Ground");
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -98,7 +105,40 @@ public class BuildingPlacer : MonoBehaviour
             return;
         }
         Instantiate(prefabToPlace, pos, Quaternion.identity);
+        PlayPlacementSound();
         CancelPlacement();
+    }
+
+    void PlayPlacementSound()
+    {
+        AudioClip clip;
+        switch (buildingType)
+        {
+            case "farm":
+                clip = farmPlaceSound;
+                break;
+
+            case "turret":
+                clip = turretPlaceSound;
+                break;
+
+            case "lumbermill":
+                clip = lumbermillPlaceSound;
+                break;
+
+            case "barracks":
+                clip = barracksPlaceSound;
+                break;
+
+            case "wall":
+                clip = wallPlaceSound;
+                break;
+
+            default:
+                clip = null;
+                break;
+        }
+        audioSource.PlayOneShot(clip);
     }
 
     void CancelPlacement()

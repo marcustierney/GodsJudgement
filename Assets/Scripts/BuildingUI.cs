@@ -39,7 +39,6 @@ public class BuildingUI : MonoBehaviour
     void UpdateButton(Button button, bool canAfford)
     {
         button.interactable = canAfford;
-
         Image img = button.GetComponent<Image>();
         if (img != null)
         {
@@ -54,7 +53,6 @@ public class BuildingUI : MonoBehaviour
             }
             img.color = c;
         }
-
         TextMeshProUGUI label = button.GetComponentInChildren<TextMeshProUGUI>();
         if (label != null)
         {

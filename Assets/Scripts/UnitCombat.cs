@@ -6,7 +6,13 @@ public class UnitCombat : MonoBehaviour
     public float attackCooldown = 1f;
     float cooldownTimer;
     private bool currentlyAttacking = false;
+    public AudioClip attackSound;
+    private AudioSource audioSource;
 
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     public bool IsAttacking()
     {
         return currentlyAttacking;
@@ -40,6 +46,7 @@ public class UnitCombat : MonoBehaviour
         {
             return true;
         }
+        audioSource.PlayOneShot(attackSound);
         Health health = target.GetComponent<Health>();
         if (health != null && !health.isDead)
         {
