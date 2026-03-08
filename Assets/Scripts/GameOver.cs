@@ -14,6 +14,8 @@ public class GameOver : MonoBehaviour
     public UnityEngine.UI.Image moralityBar;
     public UnityEngine.UI.Image styleBar;
     public UnityEngine.UI.Image consumptionBar;
+    public AudioSource audioSource;
+    public AudioClip buttonClick;
 
     void Start()
     {
@@ -30,18 +32,27 @@ public class GameOver : MonoBehaviour
 
         wavesReachedText.text = $"Waves Survived: {d.wavesReached}";
     }
+
+    void PlaySound()
+    {
+        audioSource.PlayOneShot(buttonClick);
+    }
+
     public void PlayGame()
     {
+        PlaySound();
         SceneManager.LoadScene("MainScene");
     }
 
     public void EnterMainMenu()
     {
+        PlaySound();
         SceneManager.LoadScene("MenuScene");
     }
 
     public void QuitGame()
     {
+        PlaySound();
         Application.Quit();
     }
 }
