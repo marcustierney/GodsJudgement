@@ -9,6 +9,10 @@ public class Wall : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        transform.rotation = Quaternion.Euler(-90f, 90f, 0f);
+        Vector3 pos = transform.position;
+        pos.y = 0.5f;
+        transform.position = pos;
     }
 
     public void TakeDamage(float amount)
