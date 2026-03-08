@@ -11,6 +11,10 @@ public class Barracks : MonoBehaviour
     void Start()
     {
         buildingHealth = GetComponent<BuildingHealth>();
+        transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
+        Vector3 pos = transform.position;
+        pos.y = 0.6f;
+        transform.position = pos;
     }
 
     void Update()
