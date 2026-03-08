@@ -20,10 +20,20 @@ public class EarthquakeAction : GodAction
             return;
         }
         //Calculate average building position for spread detection
-        Vector3 centroid = Vector3.zero; 
+        Vector3 centroid = Vector3.zero;
+        int validCount = 0;
         foreach (var b in buildings)
         {
+            if (IsGhostOrBeingPlaced(b))
+            {
+                continue;
+            }
             centroid += b.transform.position;
+            validCount++;
+        }
+        if (validCount == 0)
+        {
+            return;
         }
         centroid /= buildings.Length;
         List<GameObject> targets = new List<GameObject>();
@@ -32,16 +42,30 @@ public class EarthquakeAction : GodAction
         {
             foreach (var b in buildings)
             {
+                if (IsGhostOrBeingPlaced(b))
+                {
+                    continue;
+                }
                 float dist = Vector3.Distance(b.transform.position, centroid);
-                if (dist < 5f) targets.Add(b);
+                if (dist < 5f)
+                {
+                    targets.Add(b);
+                }
             }
         }
         else //Modern is dissatisfied with spread out buildings destroy far ones
         {
             foreach (var b in buildings)
             {
+                if (IsGhostOrBeingPlaced(b))
+                {
+                    continue;
+                }
                 float dist = Vector3.Distance(b.transform.position, centroid);
-                if (dist > 10f) targets.Add(b); 
+                if (dist > 10f)
+                {
+                    targets.Add(b);
+                }
             }
         }
         int destroyCount = Mathf.Min(2, targets.Count); //Destroy up to 2 matching buildings
@@ -50,11 +74,32 @@ public class EarthquakeAction : GodAction
             int idx = Random.Range(0, targets.Count);
             BuildingHealth bh = targets[idx].GetComponent<BuildingHealth>();
             if (bh != null)
+            {
                 bh.TakeDamage(999f); //Destory building 
+            }
             else
+            {
                 Object.Destroy(targets[idx]);
+            }
             targets.RemoveAt(idx);
         }
         Debug.Log($"Earthquake destroyed {destroyCount} buildings");
+    }
+
+    bool IsGhostOrBeingPlaced(GameObject obj)
+    {
+        if (obj.name == "GhostPreview")
+        {
+            return true;
+        }
+        if (BuildingPlacer.Instance != null && BuildingPlacer.Instance.IsPlacing())
+        {
+            Collider col = obj.GetComponent<Collider>();
+            if (col != null && !col.enabled)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

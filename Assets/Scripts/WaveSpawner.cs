@@ -79,6 +79,11 @@ public class WaveSpawner : MonoBehaviour
 
     void ApplyDifficulty()
     {
+        if (DifficultyData.Instance == null) //Default difficulty set to easy
+        {
+            GameObject obj = new GameObject("DifficultyData");
+            obj.AddComponent<DifficultyData>();
+        }
         switch (DifficultyData.Instance.selectedDifficulty)
         {
             case Difficulty.Easy:
