@@ -87,12 +87,12 @@ public class WaveSpawner : MonoBehaviour
         {
             if (countingDown)
             {
-                nextWaveText.text = $"Next wave: {countdown:F1}s";
+                nextWaveText.text = $"Next Wave: {countdown:F1}s";
             }
             else
             {
                 float timeUntilNext = timeBetweenWaves - waveTimer;
-                nextWaveText.text = $"Next wave: {timeUntilNext:F1}s";
+                nextWaveText.text = $"Next Wave: {timeUntilNext:F1}s";
             }
         }
     }
