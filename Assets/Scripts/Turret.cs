@@ -9,12 +9,15 @@ public class Turret : MonoBehaviour
     public GameObject arrowPrefab;
     public Transform arrowSpawnPoint;
     private GameObject currentTarget;
+    public AudioClip arrowSound;
+    private AudioSource audioSource;
     private void Start()
     {
         transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
         Vector3 pos = transform.position;
         pos.y = -0.2f;
         transform.position = pos;
+        audioSource = GetComponent<AudioSource>();
     }
     void Update()
     {
@@ -63,6 +66,7 @@ public class Turret : MonoBehaviour
         Vector3 dir = (targetPos - arrowSpawnPoint.position).normalized;
         GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, Quaternion.identity);
         Arrow arrowScript = arrow.GetComponent<Arrow>();
+        audioSource.PlayOneShot(arrowSound);
         arrowScript.Launch(dir);
     }
 
