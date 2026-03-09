@@ -80,6 +80,10 @@ public class EnemyBrain : MonoBehaviour
         float closest = range; 
         foreach (var candidate in candidates)
         {
+            if (candidate == null)
+            {
+                continue;
+            }
             Health h = candidate.GetComponent<Health>();
             if (h != null && h.isDead)
             {
@@ -102,6 +106,10 @@ public class EnemyBrain : MonoBehaviour
         float closest = range; 
         foreach (var b in buildings)
         {
+            if (b == null)
+            {
+                continue;
+            }
             BuildingHealth bh = b.GetComponent<BuildingHealth>();
             Wall wall = b.GetComponent<Wall>();
             if (bh == null && wall == null)

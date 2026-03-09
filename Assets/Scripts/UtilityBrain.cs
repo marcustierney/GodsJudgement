@@ -100,6 +100,10 @@ public class UtilityBrain : MonoBehaviour
         float closest = Mathf.Infinity;
         foreach (var enemy in enemies)
         {
+            if (enemy == null)
+            {
+                continue;
+            }
             Health h = enemy.GetComponent<Health>();
             if (h != null && h.isDead)
             {

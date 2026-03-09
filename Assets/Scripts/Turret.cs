@@ -38,6 +38,10 @@ public class Turret : MonoBehaviour
 
         foreach (var enemy in enemies)
         {
+            if (enemy == null)
+            {
+                continue;
+            }
             Health h = enemy.GetComponent<Health>();
             if (h != null && h.isDead)
             {
