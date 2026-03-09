@@ -19,6 +19,7 @@ public class FamineAction : GodAction
     public override void Execute(GodContext context)
     {
         ResourceManager.Instance.food *= 0.5f;
+        GodActionPopup.Instance.ShowPopup("The God caused a famine.");
         Debug.Log("Glutton caused famine punishing resource hoarding");
     }
 }

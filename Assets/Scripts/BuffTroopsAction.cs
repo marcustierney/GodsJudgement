@@ -32,6 +32,7 @@ public class BuffTroopsAction : GodAction
                 movement.speed *= 1.1f;
             }
         }
+        GodActionPopup.Instance.ShowPopup("The God buffed your troops.");
         Debug.Log("Violent God rewarded troops with combat buffs");
     }
 }

@@ -83,6 +83,7 @@ public class EarthquakeAction : GodAction
             }
             targets.RemoveAt(idx);
         }
+        GodActionPopup.Instance.ShowPopup("The God caused an earthquake.");
         Debug.Log($"Earthquake destroyed {destroyCount} buildings");
     }
 

@@ -28,6 +28,7 @@ public class DesertTroopsAction : GodAction
                 ResourceManager.Instance.DeregisterTroop();
             }
         }
+        GodActionPopup.Instance.ShowPopup($"The God caused {desertCount} troops to abandon you.");
         Debug.Log($"Peaceful God dissatisfied — {desertCount} troop(s) deserted.");
     }
 }

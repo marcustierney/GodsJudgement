@@ -31,6 +31,7 @@ public class SpawnEnemiesAction : GodAction
             EnemySpawner spawner = GameObject.FindObjectOfType<EnemySpawner>();
             spawner.SpawnEnemies(amount);
         }
+        GodActionPopup.Instance.ShowPopup("The God sent more enemies.");
         Debug.Log($"God spawned {amount} enemies (dissatisfaction: {dissatisfaction:F2})");
     }
 }

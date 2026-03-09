@@ -19,6 +19,6 @@ public class ArmorTroopsAction : GodAction
             if (stats != null)
                 stats.ApplyDamageReduction(0.2f); //20% damage reduction
         }
-        Debug.Log("Peaceful God granted troops armor.");
+        GodActionPopup.Instance.ShowPopup($"The God granted troops armor.");
     }
 }

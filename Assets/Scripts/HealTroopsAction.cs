@@ -23,6 +23,6 @@ public class HealTroopsAction : GodAction
                 h.Heal(20f);
             }
         }
-        Debug.Log("Peaceful God rewarded troops with healing.");
+        GodActionPopup.Instance.ShowPopup($"The God healed your troops.");
     }
 }
