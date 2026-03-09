@@ -1,48 +1,52 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class MainMenu : MonoBehaviour
 {
     public AudioSource audioSource;
     public AudioClip buttonClick;
     public AudioClip startGame;
-    void PlaySound()
+    void PlaySoundAndLoad(AudioClip clip, string scene)
     {
-        audioSource.PlayOneShot(buttonClick);
+        StartCoroutine(PlayThenLoad(clip, scene));
     }
+
+    IEnumerator PlayThenLoad(AudioClip clip, string scene)
+    {
+        audioSource.PlayOneShot(clip);
+        yield return new WaitForSeconds(clip.length);
+        SceneManager.LoadScene(scene);
+    }
+
     public void PlayGame()
     {
-        audioSource.PlayOneShot(startGame);
-        SceneManager.LoadScene("MainScene"); 
+        PlaySoundAndLoad(startGame, "MainScene");
     }
 
     public void SelectDifficulty()
     {
-        PlaySound();
-        SceneManager.LoadScene("DifficultyScene");
+        PlaySoundAndLoad(buttonClick, "DifficultyScene");
     }
 
     public void OpenSettings()
     {
-        PlaySound();
-        SceneManager.LoadScene("SettingsScene");
+        PlaySoundAndLoad(buttonClick, "SettingsScene");
     }
 
     public void OpenCredits()
     {
-        PlaySound();
-        SceneManager.LoadScene("CreditsScene");
+        PlaySoundAndLoad(buttonClick, "CreditsScene");
     }
 
     public void BackToMenu()
     {
-        PlaySound();
+        PlaySoundAndLoad(buttonClick, "MenuScene");
         SceneManager.LoadScene("MenuScene");
     }
 
     public void QuitGame()
     {
-        PlaySound();
         Application.Quit();
     }
 }
