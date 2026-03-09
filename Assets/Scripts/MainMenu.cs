@@ -42,7 +42,6 @@ public class MainMenu : MonoBehaviour
     public void BackToMenu()
     {
         PlaySoundAndLoad(buttonClick, "MenuScene");
-        SceneManager.LoadScene("MenuScene");
     }
 
     public void QuitGame()

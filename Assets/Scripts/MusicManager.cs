@@ -40,7 +40,7 @@ public class MusicManager : MonoBehaviour
     {
         AudioClip clipToPlay = null;
 
-        if (sceneName == "MenuScene" || sceneName == "DifficultyScene" || sceneName == "SettingsScene")
+        if (sceneName == "MenuScene" || sceneName == "DifficultyScene" || sceneName == "SettingsScene" || sceneName == "CreditsScene")
         {
             clipToPlay = menuMusic;
         }
